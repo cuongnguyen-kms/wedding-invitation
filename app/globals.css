@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fff7f8;
+  --foreground: #2f2424;
+  --font-serif: "Times New Roman", "Cambria", "Noto Serif", "Liberation Serif", serif;
+  --font-sans: Arial, "Segoe UI", "Noto Sans", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.invitation-shell {
+  background:
+    radial-gradient(circle at 10% 5%, rgba(244, 114, 182, 0.18), transparent 28rem),
+    radial-gradient(circle at 92% 20%, rgba(251, 207, 232, 0.42), transparent 24rem),
+    linear-gradient(180deg, #fff7f8 0%, #fff1f4 45%, #fff8f1 100%);
+}
+
+.floral-corner {
+  position: absolute;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 9999px;
+  opacity: 0.8;
+  filter: blur(0.1px);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(225, 29, 72, 0.18) 0 1.8rem, transparent 1.9rem),
+    radial-gradient(circle at 60% 24%, rgba(244, 114, 182, 0.25) 0 2.4rem, transparent 2.5rem),
+    radial-gradient(circle at 46% 58%, rgba(251, 207, 232, 0.7) 0 3.5rem, transparent 3.6rem),
+    radial-gradient(circle at 72% 66%, rgba(190, 18, 60, 0.14) 0 1.9rem, transparent 2rem);
+}
+
+.floral-corner-left {
+  left: -7rem;
+  top: -5rem;
+}
+
+.floral-corner-right {
+  bottom: 3rem;
+  right: -8rem;
+  transform: rotate(180deg);
+}
+
+.section-reveal {
+  animation: section-rise 700ms ease both;
+}
+
+@keyframes section-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

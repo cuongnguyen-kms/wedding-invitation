@@ -1,0 +1,66 @@
+"use client";
+
+import { useState } from "react";
+import type { WeddingConfig } from "@/lib/wedding-config";
+import { AutoScrollController } from "./AutoScrollController";
+import { ClosingMessage } from "./ClosingMessage";
+import { CountdownTimer } from "./CountdownTimer";
+import { CoupleHero } from "./CoupleHero";
+import { EventDetails } from "./EventDetails";
+import { InvitationCover } from "./InvitationCover";
+import { LoveStoryTimeline } from "./LoveStoryTimeline";
+import { MapSection } from "./MapSection";
+import { dispatchInvitationOpenEvent, MusicPlayer } from "./MusicPlayer";
+import { PhotoGallery } from "./PhotoGallery";
+import { RsvpForm } from "./RsvpForm";
+import { Section } from "./Section";
+
+type InvitationPageProps = {
+  config: WeddingConfig;
+};
+
+export function InvitationPage({ config }: InvitationPageProps) {
+  const [isOpened, setIsOpened] = useState(false);
+
+  return (
+    <main className="invitation-shell min-h-screen overflow-hidden bg-rose-50 text-stone-900">
+      <InvitationCover
+        couple={config.couple}
+        guest={config.guest}
+        isOpened={isOpened}
+        onOpen={() => {
+          dispatchInvitationOpenEvent();
+          setIsOpened(true);
+        }}
+      />
+      <MusicPlayer isVisible={isOpened} />
+      <AutoScrollController isOpened={isOpened} />
+      <Section id="couple" className="pt-24">
+        <CoupleHero couple={config.couple} photos={config.gallery} />
+      </Section>
+      <Section className="bg-white/45">
+        <EventDetails
+          couple={config.couple}
+          events={config.events}
+          families={config.families}
+        />
+      </Section>
+      <Section>
+        <CountdownTimer event={config.events[1]} />
+      </Section>
+      <Section className="bg-white/45">
+        <LoveStoryTimeline items={config.schedule} />
+      </Section>
+      <Section>
+        <MapSection location={config.location} />
+      </Section>
+      <Section className="bg-white/45">
+        <PhotoGallery photos={config.gallery} />
+      </Section>
+      <Section>
+        <RsvpForm />
+      </Section>
+      <ClosingMessage couple={config.couple} />
+    </main>
+  );
+}
