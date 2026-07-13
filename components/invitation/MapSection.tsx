@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { publicPath } from "@/lib/public-path";
 import type { WeddingConfig } from "@/lib/wedding-config";
 
 type MapSectionProps = {
@@ -10,7 +11,7 @@ export function MapSection({ location }: MapSectionProps) {
     <div className="relative mx-auto overflow-hidden rounded-[2rem] border border-rose-100 bg-[#fffaf7] px-5 py-14 text-center shadow-2xl shadow-rose-100/70 sm:px-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_62%,rgba(251,207,232,0.3),transparent_16rem),radial-gradient(circle_at_30%_24%,rgba(255,255,255,0.78),transparent_18rem)]" />
       <Image
-        src="/images/florals/corner-bouquet.webp"
+        src={publicPath("/images/florals/corner-bouquet.webp")}
         alt=""
         width={420}
         height={420}

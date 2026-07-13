@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { publicPath } from "@/lib/public-path";
 import type { GalleryPhoto, WeddingConfig } from "@/lib/wedding-config";
 
 type CoupleHeroProps = {
@@ -13,7 +14,7 @@ export function CoupleHero({ couple, photos }: CoupleHeroProps) {
   return (
     <div className="relative mx-auto min-h-[760px] overflow-hidden rounded-[2rem] border border-rose-100 bg-[#fffaf7] px-5 py-14 text-center shadow-2xl shadow-rose-100/70 sm:px-10 lg:min-h-[860px]">
       <Image
-        src="/images/florals/corner-bouquet.webp"
+        src={publicPath("/images/florals/corner-bouquet.webp")}
         alt=""
         width={520}
         height={520}
@@ -53,7 +54,7 @@ export function CoupleHero({ couple, photos }: CoupleHeroProps) {
         <figure className="absolute left-[56%] top-0 z-10 w-52 -translate-x-1/2 rotate-[9deg] rounded-sm border-[8px] border-[#f4c2c7] bg-white p-1 shadow-xl shadow-rose-200/70 sm:w-64">
           <div className="relative aspect-[3/4] overflow-hidden">
             <Image
-              src={firstPhoto.src}
+              src={publicPath(firstPhoto.src)}
               alt={firstPhoto.alt}
               fill
               sizes="(min-width: 640px) 256px, 208px"
@@ -67,7 +68,7 @@ export function CoupleHero({ couple, photos }: CoupleHeroProps) {
         <figure className="absolute left-[44%] top-[220px] z-20 w-56 -translate-x-1/2 rotate-[-9deg] rounded-sm border-[8px] border-[#c8c1d5] bg-white p-1 shadow-2xl shadow-rose-200/80 sm:top-[250px] sm:w-72">
           <div className="relative aspect-[3/4] overflow-hidden">
             <Image
-              src={secondPhoto.src}
+              src={publicPath(secondPhoto.src)}
               alt={secondPhoto.alt}
               fill
               sizes="(min-width: 640px) 288px, 224px"
@@ -78,7 +79,7 @@ export function CoupleHero({ couple, photos }: CoupleHeroProps) {
       </div>
 
       <Image
-        src="/images/florals/side-bouquet-alt.webp"
+        src={publicPath("/images/florals/side-bouquet-alt.webp")}
         alt=""
         width={260}
         height={600}

@@ -18,6 +18,7 @@ export type TimelineItem = {
 
 export type GalleryPhoto = {
   src: string;
+  fullSrc: string;
   alt: string;
 };
 
@@ -59,6 +60,14 @@ export type WeddingConfig = {
     mapUrl: string;
   };
 };
+
+function buildGallery(photos: [name: string, alt?: string][]): GalleryPhoto[] {
+  return photos.map(([name, alt], index) => ({
+    src: `/images/gallery/thumb/${name}.jpg`,
+    fullSrc: `/images/gallery/full/${name}.jpg`,
+    alt: alt ?? `Ảnh cưới Quốc Cường & Bảo Quyên ${index + 1}`,
+  }));
+}
 
 export const weddingConfig: WeddingConfig = {
   couple: {
@@ -152,36 +161,43 @@ export const weddingConfig: WeddingConfig = {
         "Under warm lights and pink flowers, one question turned tomorrow into our favorite word.",
     },
   ],
-  gallery: [
-    {
-      src: "/images/BON01398 bs mau sua.jpg",
-      alt: "Couple sitting on a white classic car under palm trees",
-    },
-    {
-      src: "/images/BON01819 texxt.jpg",
-      alt: "Bride and groom holding glasses beside a white classic car",
-    },
-    {
-      src: "/images/BON01585 bs mau suwar.jpg",
-      alt: "Bride leaning on a white classic car with groom seated inside",
-    },
-    {
-      src: "/images/BON01879 bs suwa.jpg",
-      alt: "Bride and groom embracing by the sea at sunset",
-    },
-    {
-      src: "/images/BON01809 bs mau sua.jpg",
-      alt: "Bride and groom standing by the lake under a pink sky",
-    },
-    {
-      src: "/images/BON01951 suwar.jpg",
-      alt: "Groom kissing bride on the forehead by the sea",
-    },
-    {
-      src: "/images/BON01763 bs suwar.jpg",
-      alt: "Bride and groom posing with a white classic car",
-    },
-  ],
+  gallery: buildGallery([
+    ["BON01763", "Bride and groom posing with a white classic car"],
+    ["BON01775"],
+    ["BON01809", "Bride and groom standing by the lake under a pink sky"],
+    ["BON01819", "Bride and groom holding glasses beside a white classic car"],
+    ["BON01832"],
+    ["BON01842"],
+    ["BON01872"],
+    ["BON01874"],
+    ["BON01879", "Bride and groom embracing by the sea at sunset"],
+    ["BON01905"],
+    ["BON01913"],
+    ["BON01916"],
+    ["BON01951", "Groom kissing bride on the forehead by the sea"],
+    ["BON01967"],
+    ["BON02023"],
+    ["BON02039"],
+    ["BON02045"],
+    ["BON02065"],
+    ["BON02074"],
+    ["BON02082"],
+    ["BON01398", "Couple sitting on a white classic car under palm trees"],
+    ["BON01408"],
+    ["BON01438"],
+    ["BON01453"],
+    ["BON01463"],
+    ["BON01477"],
+    ["BON01509"],
+    ["BON01585", "Bride leaning on a white classic car with groom seated inside"],
+    ["BON01594"],
+    ["BON01630"],
+    ["BON01655"],
+    ["BON01656"],
+    ["BON01682"],
+    ["BON01705"],
+    ["BON01727"],
+  ]),
   location: {
     title: "Nhà hàng tiệc cưới TTC Palace Bến Tre",
     address: "16 Hai Bà Trưng, phường An Hội, tỉnh Vĩnh Long",

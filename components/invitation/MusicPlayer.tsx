@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { publicPath } from "@/lib/public-path";
 
 type MusicPlayerProps = {
   isVisible: boolean;
@@ -8,10 +9,11 @@ type MusicPlayerProps = {
 };
 
 const invitationOpenEvent = "invitation-open";
+const defaultMusicSrc = publicPath("/music/cant-help-falling-in-love.mp3");
 
 export function MusicPlayer({
   isVisible,
-  src = "/music/cant-help-falling-in-love.mp3",
+  src = defaultMusicSrc,
 }: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);

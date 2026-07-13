@@ -57,8 +57,8 @@ Status key:
 - [x] Add gentle automatic scroll after opening.
 - [x] Stop automatic scroll on manual user interaction.
 - [x] Respect `prefers-reduced-motion`.
-- [ ] Verify music works on mobile after user interaction.
-- [ ] Verify page remains usable when music playback is blocked.
+- [x] Verify music works on mobile after user interaction.
+- [x] Verify page remains usable when music playback is blocked.
 
 ## Phase 4: Prisma Data Layer
 

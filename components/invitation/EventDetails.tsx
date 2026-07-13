@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { publicPath } from "@/lib/public-path";
 import type { WeddingConfig, WeddingEvent } from "@/lib/wedding-config";
 
 type EventDetailsProps = {
@@ -36,14 +37,14 @@ export function EventDetails({ couple, events, families }: EventDetailsProps) {
     <div className="relative mx-auto overflow-hidden rounded-[2rem] border border-rose-100 bg-[#fffaf7] px-5 py-14 text-center shadow-2xl shadow-rose-100/70 sm:px-10 lg:px-16">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_28%,rgba(251,207,232,0.32),transparent_19rem),radial-gradient(circle_at_52%_58%,rgba(255,255,255,0.78),transparent_18rem)]" />
       <Image
-        src="/images/florals/side-bouquet.webp"
+        src={publicPath("/images/florals/side-bouquet.webp")}
         alt=""
         width={320}
         height={760}
         className="pointer-events-none absolute -right-24 top-28 z-0 hidden w-64 opacity-80 md:block"
       />
       <Image
-        src="/images/florals/side-bouquet-alt.webp"
+        src={publicPath("/images/florals/side-bouquet-alt.webp")}
         alt=""
         width={260}
         height={620}

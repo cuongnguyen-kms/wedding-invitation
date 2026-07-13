@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Image from "next/image";
+import { publicPath } from "@/lib/public-path";
 
 export function RsvpForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -18,7 +19,7 @@ export function RsvpForm() {
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_12%,rgba(251,207,232,0.3),transparent_16rem),radial-gradient(circle_at_48%_64%,rgba(255,255,255,0.82),transparent_20rem)]" />
       <Image
-        src="/images/florals/side-bouquet-alt.webp"
+        src={publicPath("/images/florals/side-bouquet-alt.webp")}
         alt=""
         width={280}
         height={640}
