@@ -57,8 +57,8 @@ export function EventDetails({ couple, events, families }: EventDetailsProps) {
         </h2>
 
         <div className="mt-10 grid gap-8 md:grid-cols-2">
-          <FamilyColumn family={families.groom} />
           <FamilyColumn family={families.bride} />
+          <FamilyColumn family={families.groom} />
         </div>
 
         <div className="mx-auto mt-12 max-w-2xl text-[#9c6a61]">
@@ -70,11 +70,11 @@ export function EventDetails({ couple, events, families }: EventDetailsProps) {
 
         <div className="mx-auto mt-10 max-w-3xl text-[#9c6a61]">
           <h3 className="font-serif text-4xl leading-tight sm:text-6xl">
-            {couple.groom}
+            {couple.bride}
           </h3>
           <p className="my-5 font-serif text-2xl italic text-[#c79a91]">&</p>
           <h3 className="font-serif text-4xl leading-tight sm:text-6xl">
-            {couple.bride}
+            {couple.groom}
           </h3>
         </div>
 

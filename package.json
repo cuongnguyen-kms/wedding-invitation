@@ -8,22 +8,32 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "optimize-images": "node scripts/optimize-images.mjs"
+    "optimize-images": "node scripts/optimize-images.mjs",
+    "db:seed": "tsx prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.8.0",
+    "@prisma/client": "^7.8.0",
     "next": "latest",
+    "prisma": "^7.8.0",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "dotenv": "^17.4.2",
     "eslint": "latest",
     "eslint-config-next": "latest",
     "sharp": "^0.35.3",
     "tailwindcss": "latest",
+    "tsx": "^4.23.1",
     "typescript": "latest",
     "vitest": "^4.1.6"
   }

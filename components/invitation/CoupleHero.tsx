@@ -29,16 +29,16 @@ export function CoupleHero({ couple, photos }: CoupleHeroProps) {
         </p>
         <div className="mt-8 space-y-5 text-[#9c6a61]">
           <div>
-            <p className="text-sm uppercase tracking-[0.26em]">Trưởng nam</p>
+            <p className="text-sm uppercase tracking-[0.26em]">Út nữ</p>
             <h2 className="mt-2 font-serif text-4xl leading-none sm:text-5xl">
-              {couple.groom}
+              {couple.bride}
             </h2>
           </div>
           <div className="font-serif text-2xl italic text-[#c79a91]">&</div>
           <div>
-            <p className="text-sm uppercase tracking-[0.26em]">Út nữ</p>
+            <p className="text-sm uppercase tracking-[0.26em]">Trưởng nam</p>
             <h2 className="mt-2 font-serif text-4xl leading-none sm:text-5xl">
-              {couple.bride}
+              {couple.groom}
             </h2>
           </div>
         </div>

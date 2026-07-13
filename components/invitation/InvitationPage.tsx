@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { RsvpStatus } from "@/lib/generated/prisma/enums";
 import type { WeddingConfig } from "@/lib/wedding-config";
 import { AutoScrollController } from "./AutoScrollController";
 import { ClosingMessage } from "./ClosingMessage";
@@ -17,9 +18,15 @@ import { Section } from "./Section";
 
 type InvitationPageProps = {
   config: WeddingConfig;
+  rsvp?: {
+    slug: string;
+    rsvpStatus: RsvpStatus;
+    guestCount: number;
+    message: string | null;
+  };
 };
 
-export function InvitationPage({ config }: InvitationPageProps) {
+export function InvitationPage({ config, rsvp }: InvitationPageProps) {
   const [isOpened, setIsOpened] = useState(false);
 
   return (
@@ -58,7 +65,12 @@ export function InvitationPage({ config }: InvitationPageProps) {
         <PhotoGallery photos={config.gallery} />
       </Section>
       <Section>
-        <RsvpForm />
+        <RsvpForm
+          guestSlug={rsvp?.slug}
+          initialRsvpStatus={rsvp?.rsvpStatus}
+          initialGuestCount={rsvp?.guestCount}
+          initialMessage={rsvp?.message}
+        />
       </Section>
       <ClosingMessage couple={config.couple} />
     </main>

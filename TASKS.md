@@ -62,70 +62,70 @@ Status key:
 
 ## Phase 4: Prisma Data Layer
 
-- [ ] Install Prisma dependencies.
-- [ ] Configure SQLite datasource.
-- [ ] Add `Guest` model.
-- [ ] Add `RsvpStatus` enum.
-- [ ] Create initial migration.
-- [ ] Add seed script with sample guests.
-- [ ] Add Prisma client helper in `lib/db.ts`.
-- [ ] Verify migration runs.
-- [ ] Verify seed data exists.
+- [x] Install Prisma dependencies.
+- [x] Configure SQLite datasource.
+- [x] Add `Guest` model.
+- [x] Add `RsvpStatus` enum.
+- [x] Create initial migration.
+- [x] Add seed script with sample guests.
+- [x] Add Prisma client helper in `lib/db.ts`.
+- [x] Verify migration runs.
+- [x] Verify seed data exists.
 
 ## Phase 5: Guest Logic and Validation
 
-- [ ] Add Zod schema for guest creation.
-- [ ] Add Zod schema for guest update.
-- [ ] Add Zod schema for RSVP submission.
-- [ ] Add slug normalization utility.
-- [ ] Add unique slug generation.
-- [ ] Add guest list helper.
-- [ ] Add get-guest-by-id helper.
-- [ ] Add get-guest-by-slug helper.
-- [ ] Add create guest helper.
-- [ ] Add update guest helper.
-- [ ] Add delete guest helper.
-- [ ] Add RSVP update helper.
-- [ ] Verify duplicate guest names produce unique slugs.
+- [x] Add Zod schema for guest creation.
+- [x] Add Zod schema for guest update.
+- [x] Add Zod schema for RSVP submission.
+- [x] Add slug normalization utility.
+- [x] Add unique slug generation.
+- [x] Add guest list helper.
+- [x] Add get-guest-by-id helper.
+- [x] Add get-guest-by-slug helper.
+- [x] Add create guest helper.
+- [x] Add update guest helper.
+- [x] Add delete guest helper.
+- [x] Add RSVP update helper.
+- [x] Verify duplicate guest names produce unique slugs.
 
 ## Phase 6: Personalized Invitation Route
 
-- [ ] Add `/invite/[slug]` route.
-- [ ] Load guest by slug.
-- [ ] Pass safe public guest data to invitation UI.
-- [ ] Render personalized greeting.
-- [ ] Add friendly invitation-not-found state.
-- [ ] Add optional `/i/[slug]` redirect.
-- [ ] Verify existing slug renders correctly.
-- [ ] Verify missing slug renders gracefully.
-- [ ] Verify public page does not expose private guest fields.
+- [x] Add `/invite/[slug]` route.
+- [x] Load guest by slug.
+- [x] Pass safe public guest data to invitation UI.
+- [x] Render personalized greeting.
+- [x] Add friendly invitation-not-found state.
+- [x] Add optional `/i/[slug]` redirect.
+- [x] Verify existing slug renders correctly.
+- [x] Verify missing slug renders gracefully.
+- [x] Verify public page does not expose private guest fields.
 
 ## Phase 7: RSVP Submission
 
-- [ ] Add `POST /api/invitations/[slug]/rsvp`.
-- [ ] Validate RSVP request body with Zod.
-- [ ] Update matching guest by slug.
-- [ ] Wire `RsvpForm` to RSVP API.
-- [ ] Add loading state.
-- [ ] Add success state.
-- [ ] Add error state.
-- [ ] Verify attending RSVP updates database.
-- [ ] Verify not-attending RSVP updates database.
-- [ ] Verify invalid RSVP input returns a clear error.
+- [x] Add `POST /api/invitations/[slug]/rsvp`.
+- [x] Validate RSVP request body with Zod.
+- [x] Update matching guest by slug.
+- [x] Wire `RsvpForm` to RSVP API.
+- [x] Add loading state.
+- [x] Add success state.
+- [x] Add error state.
+- [x] Verify attending RSVP updates database.
+- [x] Verify not-attending RSVP updates database.
+- [x] Verify invalid RSVP input returns a clear error.
 
 ## Phase 8: Admin Dashboard and Guest List
 
-- [ ] Add `/admin` dashboard.
-- [ ] Add RSVP summary cards.
-- [ ] Add `/admin/guests` page.
-- [ ] Add admin guest table.
-- [ ] Add search by name.
-- [ ] Add filter by group.
-- [ ] Add filter by RSVP status.
-- [ ] Add copy personalized invitation URL action.
-- [ ] Verify summary cards match database state.
-- [ ] Verify search and filters work.
-- [ ] Verify copied invitation URL is correct.
+- [x] Add `/admin` dashboard.
+- [x] Add RSVP summary cards.
+- [x] Add `/admin/guests` page.
+- [x] Add admin guest table.
+- [x] Add search by name.
+- [x] Add filter by group.
+- [x] Add filter by RSVP status.
+- [x] Add copy personalized invitation URL action.
+- [x] Verify summary cards match database state.
+- [x] Verify search and filters work.
+- [x] Verify copied invitation URL is correct.
 
 ## Phase 9: Admin Guest CRUD
 

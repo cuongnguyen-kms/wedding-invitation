@@ -28,3 +28,5 @@ Thumbs.db
 
 # raw, unoptimized photo originals (run `npm run optimize-images` to regenerate public/images/gallery)
 assets/photos-source
+
+/lib/generated/prisma
