@@ -3,7 +3,7 @@ import { GuestGreeting } from "./GuestGreeting";
 
 type InvitationCoverProps = {
   couple: WeddingConfig["couple"];
-  guest: WeddingConfig["guest"];
+  guest?: WeddingConfig["guest"];
   isOpened: boolean;
   onOpen: () => void;
 };
@@ -35,9 +35,11 @@ export function InvitationCover({
         </h1>
         <div className="my-6 h-px w-28 bg-rose-200" />
         <p className="text-lg font-medium text-stone-700">{couple.dateLabel}</p>
-        <div className="mt-7">
-          <GuestGreeting greeting={guest.greeting} name={guest.name} />
-        </div>
+        {guest ? (
+          <div className="mt-7">
+            <GuestGreeting greeting={guest.greeting} name={guest.name} />
+          </div>
+        ) : null}
         <button
           type="button"
           onClick={onOpen}

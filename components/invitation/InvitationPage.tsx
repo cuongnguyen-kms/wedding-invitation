@@ -33,7 +33,7 @@ export function InvitationPage({ config, rsvp }: InvitationPageProps) {
     <main className="invitation-shell min-h-screen overflow-hidden bg-rose-50 text-stone-900">
       <InvitationCover
         couple={config.couple}
-        guest={config.guest}
+        guest={rsvp ? config.guest : undefined}
         isOpened={isOpened}
         onOpen={() => {
           dispatchInvitationOpenEvent();
@@ -64,14 +64,16 @@ export function InvitationPage({ config, rsvp }: InvitationPageProps) {
       <Section className="bg-white/45">
         <PhotoGallery photos={config.gallery} />
       </Section>
-      <Section>
-        <RsvpForm
-          guestSlug={rsvp?.slug}
-          initialRsvpStatus={rsvp?.rsvpStatus}
-          initialGuestCount={rsvp?.guestCount}
-          initialMessage={rsvp?.message}
-        />
-      </Section>
+      {rsvp ? (
+        <Section>
+          <RsvpForm
+            guestSlug={rsvp.slug}
+            initialRsvpStatus={rsvp.rsvpStatus}
+            initialGuestCount={rsvp.guestCount}
+            initialMessage={rsvp.message}
+          />
+        </Section>
+      ) : null}
       <ClosingMessage couple={config.couple} />
     </main>
   );

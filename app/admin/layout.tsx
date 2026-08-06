@@ -6,15 +6,33 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <header className="border-b border-stone-200 bg-white px-6 py-4">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3">
           <nav className="flex items-center gap-6 text-sm font-medium">
-            <Link href="/admin" className="text-rose-700 hover:underline">
+            <Link
+              href="/admin"
+              className="rounded-md text-rose-700 hover:underline focus:outline-none focus:ring-2 focus:ring-rose-300"
+            >
               Dashboard
             </Link>
-            <Link href="/admin/guests" className="text-rose-700 hover:underline">
+            <Link
+              href="/admin/guests"
+              className="rounded-md text-rose-700 hover:underline focus:outline-none focus:ring-2 focus:ring-rose-300"
+            >
               Guests
+            </Link>
+            <Link
+              href="/admin/settings"
+              className="rounded-md text-rose-700 hover:underline focus:outline-none focus:ring-2 focus:ring-rose-300"
+            >
+              Settings
+            </Link>
+            <Link
+              href="/admin/photos"
+              className="rounded-md text-rose-700 hover:underline focus:outline-none focus:ring-2 focus:ring-rose-300"
+            >
+              Photos
             </Link>
           </nav>
           <p className="text-xs text-stone-400">
-            Local admin area — not authentication-protected yet.
+            Protected by HTTP Basic Auth — not a full login system.
           </p>
         </div>
       </header>

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RsvpStatus } from "@/lib/generated/prisma/enums";
+import { RsvpStatus } from "@/lib/generated/prisma-postgres/enums";
 
 export const rsvpStatusSchema = z.enum([
   RsvpStatus.PENDING,

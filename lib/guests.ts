@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db";
-import type { Guest } from "@/lib/generated/prisma/client";
-import type { RsvpStatus } from "@/lib/generated/prisma/enums";
+import type { Guest } from "@/lib/generated/prisma-postgres/client";
+import type { RsvpStatus } from "@/lib/generated/prisma-postgres/enums";
 import { generateUniqueSlug } from "@/lib/slug";
 import {
   createGuestSchema,
@@ -42,6 +42,11 @@ async function isSlugTaken(slug: string, excludeId?: string): Promise<boolean> {
 
 export async function createGuest(input: CreateGuestInput): Promise<Guest> {
   const data = createGuestSchema.parse(input);
+
+  if (data.slug !== undefined && (await isSlugTaken(data.slug))) {
+    throw new Error("Slug is already used");
+  }
+
   const slug = data.slug ?? (await generateUniqueSlug(data.name, (candidate) => isSlugTaken(candidate)));
 
   return prisma.guest.create({

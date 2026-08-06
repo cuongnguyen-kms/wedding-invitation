@@ -9,29 +9,37 @@
     "lint": "eslint",
     "test": "vitest run",
     "optimize-images": "node scripts/optimize-images.mjs",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "db:generate:postgres": "prisma generate --config prisma.postgres.config.ts",
+    "db:migrate:postgres": "prisma migrate dev --config prisma.postgres.config.ts",
+    "db:deploy:postgres": "prisma migrate deploy --config prisma.postgres.config.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.8.0",
+    "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.8.0",
     "next": "latest",
+    "pg": "^8.22.0",
     "prisma": "^7.8.0",
+    "qrcode": "^1.5.4",
     "react": "latest",
     "react-dom": "latest",
+    "sharp": "^0.35.3",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "latest",
     "@types/node": "latest",
+    "@types/pg": "^8.20.0",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "dotenv": "^17.4.2",
     "eslint": "latest",
     "eslint-config-next": "latest",
-    "sharp": "^0.35.3",
     "tailwindcss": "latest",
     "tsx": "^4.23.1",
     "typescript": "latest",

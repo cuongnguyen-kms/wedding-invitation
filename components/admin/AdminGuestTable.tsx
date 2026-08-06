@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Guest } from "@/lib/generated/prisma/client";
 import { CopyInviteLinkButton } from "./CopyInviteLinkButton";
 
@@ -22,12 +23,13 @@ export function AdminGuestTable({ guests }: AdminGuestTableProps) {
             <th className="px-4 py-3">RSVP</th>
             <th className="px-4 py-3">Guests</th>
             <th className="px-4 py-3">Invitation link</th>
+            <th className="px-4 py-3">Actions</th>
           </tr>
         </thead>
         <tbody>
           {guests.length === 0 ? (
             <tr>
-              <td colSpan={5} className="px-4 py-8 text-center text-stone-400">
+              <td colSpan={6} className="px-4 py-8 text-center text-stone-400">
                 No guests match these filters.
               </td>
             </tr>
@@ -40,6 +42,24 @@ export function AdminGuestTable({ guests }: AdminGuestTableProps) {
                 <td className="px-4 py-3">{guest.guestCount}</td>
                 <td className="px-4 py-3">
                   <CopyInviteLinkButton slug={guest.slug} />
+                </td>
+                <td className="px-4 py-3">
+                  <div className="flex flex-wrap gap-2">
+                    <Link
+                      href={`/admin/guests/${guest.id}`}
+                      className="rounded-md border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-600 transition hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-rose-300"
+                    >
+                      Edit
+                    </Link>
+                    <a
+                      href={`/api/guests/${guest.id}/qrcode`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-md border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-600 transition hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-rose-300"
+                    >
+                      QR code
+                    </a>
+                  </div>
                 </td>
               </tr>
             ))

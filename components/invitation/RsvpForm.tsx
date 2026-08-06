@@ -6,7 +6,7 @@ import { publicPath } from "@/lib/public-path";
 import type { RsvpStatus } from "@/lib/generated/prisma/enums";
 
 type RsvpFormProps = {
-  guestSlug?: string;
+  guestSlug: string;
   initialRsvpStatus?: RsvpStatus;
   initialGuestCount?: number;
   initialMessage?: string | null;
@@ -23,17 +23,11 @@ export function RsvpForm({
   const [rsvpStatus, setRsvpStatus] = useState<RsvpStatus>(initialRsvpStatus);
   const [guestCount, setGuestCount] = useState(initialGuestCount);
   const [message, setMessage] = useState(initialMessage ?? "");
-  const [name, setName] = useState("");
   const [state, setState] = useState<SubmitState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    if (!guestSlug) {
-      setState("success");
-      return;
-    }
 
     if (rsvpStatus !== "ATTENDING" && rsvpStatus !== "NOT_ATTENDING") {
       setErrorMessage("Vui lòng chọn tham dự hoặc vắng mặt.");
@@ -90,9 +84,7 @@ export function RsvpForm({
           <div className="mx-auto mt-8 rounded-md border border-[#d9b5ad] bg-white/30 p-8">
             <p className="font-serif text-3xl text-[#8e5f57]">Thank you</p>
             <p className="mt-3 leading-7 text-[#9a817b]">
-              {guestSlug
-                ? "Cảm ơn bạn đã phản hồi. Lời nhắn của bạn đã được ghi nhận."
-                : "Your wishes have been saved for this demo invitation."}
+              Cảm ơn bạn đã phản hồi. Lời nhắn của bạn đã được ghi nhận.
             </p>
           </div>
         ) : (
@@ -100,56 +92,44 @@ export function RsvpForm({
             onSubmit={handleSubmit}
             className="mx-auto mt-8 grid gap-4 rounded-md border border-[#e3c9c2] bg-white/25 p-5 shadow-lg shadow-rose-100/60 sm:p-6"
           >
-            {!guestSlug ? (
-              <input
-                name="name"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Nhập tên của bạn*"
-                className="min-h-12 rounded-md border border-[#b7837a] bg-white/30 px-4 text-sm text-[#8e5f57] outline-none placeholder:text-[#c4a09a] focus:ring-4 focus:ring-rose-100"
-              />
-            ) : (
-              <>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setRsvpStatus("ATTENDING")}
-                    className={`min-h-12 rounded-md border px-4 text-sm font-semibold uppercase tracking-[0.05em] transition ${
-                      rsvpStatus === "ATTENDING"
-                        ? "border-[#a86f66] bg-[#a86f66] text-white"
-                        : "border-[#b7837a] bg-white/30 text-[#8e5f57] hover:bg-white/50"
-                    }`}
-                  >
-                    Sẽ tham dự
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRsvpStatus("NOT_ATTENDING")}
-                    className={`min-h-12 rounded-md border px-4 text-sm font-semibold uppercase tracking-[0.05em] transition ${
-                      rsvpStatus === "NOT_ATTENDING"
-                        ? "border-[#a86f66] bg-[#a86f66] text-white"
-                        : "border-[#b7837a] bg-white/30 text-[#8e5f57] hover:bg-white/50"
-                    }`}
-                  >
-                    Xin phép vắng mặt
-                  </button>
-                </div>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setRsvpStatus("ATTENDING")}
+                className={`min-h-12 rounded-md border px-4 text-sm font-semibold uppercase tracking-[0.05em] transition ${
+                  rsvpStatus === "ATTENDING"
+                    ? "border-[#a86f66] bg-[#a86f66] text-white"
+                    : "border-[#b7837a] bg-white/30 text-[#8e5f57] hover:bg-white/50"
+                }`}
+              >
+                Sẽ tham dự
+              </button>
+              <button
+                type="button"
+                onClick={() => setRsvpStatus("NOT_ATTENDING")}
+                className={`min-h-12 rounded-md border px-4 text-sm font-semibold uppercase tracking-[0.05em] transition ${
+                  rsvpStatus === "NOT_ATTENDING"
+                    ? "border-[#a86f66] bg-[#a86f66] text-white"
+                    : "border-[#b7837a] bg-white/30 text-[#8e5f57] hover:bg-white/50"
+                }`}
+              >
+                Xin phép vắng mặt
+              </button>
+            </div>
 
-                {rsvpStatus === "ATTENDING" ? (
-                  <label className="flex items-center justify-between gap-4 text-left text-sm text-[#8e5f57]">
-                    <span>Số người tham dự</span>
-                    <input
-                      type="number"
-                      min={1}
-                      max={20}
-                      value={guestCount}
-                      onChange={(event) => setGuestCount(Number(event.target.value) || 1)}
-                      className="min-h-10 w-20 rounded-md border border-[#b7837a] bg-white/30 px-3 text-center outline-none focus:ring-4 focus:ring-rose-100"
-                    />
-                  </label>
-                ) : null}
-              </>
-            )}
+            {rsvpStatus === "ATTENDING" ? (
+              <label className="flex items-center justify-between gap-4 text-left text-sm text-[#8e5f57]">
+                <span>Số người tham dự</span>
+                <input
+                  type="number"
+                  min={1}
+                  max={20}
+                  value={guestCount}
+                  onChange={(event) => setGuestCount(Number(event.target.value) || 1)}
+                  className="min-h-10 w-20 rounded-md border border-[#b7837a] bg-white/30 px-3 text-center outline-none focus:ring-4 focus:ring-rose-100"
+                />
+              </label>
+            ) : null}
 
             <textarea
               name="message"

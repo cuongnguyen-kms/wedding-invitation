@@ -29,7 +29,7 @@ export function MapSection({ location }: MapSectionProps) {
 
         <div className="relative mx-auto mt-10 aspect-[1.55/1] max-w-2xl overflow-hidden rounded-md border border-rose-100 bg-rose-50 shadow-lg shadow-rose-100/60">
           <Image
-            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=80"
+            src={publicPath("/images/map/venue.jpg")}
             alt="Elegant wedding venue with floral decoration"
             fill
             sizes="(min-width: 768px) 672px, 100vw"

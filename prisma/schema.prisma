@@ -32,3 +32,38 @@ enum RsvpStatus {
   ATTENDING
   NOT_ATTENDING
 }
+
+// Singleton row (id is always "singleton") holding the admin-editable
+// text/date wedding content. Arrays/objects (events, schedule, story,
+// families) are stored as JSON-serialized text — see schemas/settings.ts
+// and lib/settings.ts for the parse/serialize boundary.
+model WeddingSettings {
+  id               String   @id @default("singleton")
+  groomName        String
+  brideName        String
+  displayNames     String
+  weddingDateTime  DateTime
+  weddingDateLabel String
+  intro            String
+  locationTitle    String
+  locationAddress  String
+  locationMapUrl   String
+  eventsJson       String
+  scheduleJson     String
+  storyJson        String
+  familiesJson     String
+  updatedAt        DateTime @updatedAt
+}
+
+// Admin-uploaded gallery photos, stored as raw bytes in SQLite (no
+// external object storage). thumbData/fullData are separate resized
+// variants generated at upload time — see lib/photos.ts.
+model Photo {
+  id        String   @id @default(cuid())
+  thumbData Bytes
+  fullData  Bytes
+  mimeType  String
+  alt       String   @default("")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,66 @@
+// PostgreSQL variant of prisma/schema.prisma, for production deployments
+// where SQLite isn't viable (e.g. Vercel's ephemeral/read-only filesystem).
+// See docs/deployment-postgres.md for how and when to use this file.
+//
+// Keep this file's models in sync with prisma/schema.prisma by hand — Prisma
+// has no "include" mechanism for schema files, and the two are intentionally
+// separate generated clients (see the doc for why they can't be merged into
+// one dynamically-switched client).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma-postgres"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Guest {
+  id              String     @id @default(cuid())
+  name            String
+  slug            String     @unique
+  phone           String?
+  email           String?
+  group           String?
+  invitationTitle String?
+  guestCount      Int        @default(1)
+  rsvpStatus      RsvpStatus @default(PENDING)
+  message         String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+enum RsvpStatus {
+  PENDING
+  ATTENDING
+  NOT_ATTENDING
+}
+
+model WeddingSettings {
+  id               String   @id @default("singleton")
+  groomName        String
+  brideName        String
+  displayNames     String
+  weddingDateTime  DateTime
+  weddingDateLabel String
+  intro            String
+  locationTitle    String
+  locationAddress  String
+  locationMapUrl   String
+  eventsJson       String
+  scheduleJson     String
+  storyJson        String
+  familiesJson     String
+  updatedAt        DateTime @updatedAt
+}
+
+model Photo {
+  id        String   @id @default(cuid())
+  thumbData Bytes
+  fullData  Bytes
+  mimeType  String
+  alt       String   @default("")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}

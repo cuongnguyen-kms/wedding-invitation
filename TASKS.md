@@ -129,44 +129,44 @@ Status key:
 
 ## Phase 9: Admin Guest CRUD
 
-- [ ] Add `GET /api/guests`.
-- [ ] Add `POST /api/guests`.
-- [ ] Add `GET /api/guests/[id]`.
-- [ ] Add `PATCH /api/guests/[id]`.
-- [ ] Add `DELETE /api/guests/[id]`.
-- [ ] Add `/admin/guests/new`.
-- [ ] Add `/admin/guests/[id]`.
-- [ ] Build shared `GuestForm`.
-- [ ] Add delete confirmation.
-- [ ] Verify admin can create a guest.
-- [ ] Verify admin can edit a guest.
-- [ ] Verify admin can delete a guest.
-- [ ] Verify validation messages are clear.
+- [x] Add `GET /api/guests`.
+- [x] Add `POST /api/guests`.
+- [x] Add `GET /api/guests/[id]`.
+- [x] Add `PATCH /api/guests/[id]`.
+- [x] Add `DELETE /api/guests/[id]`.
+- [x] Add `/admin/guests/new`.
+- [x] Add `/admin/guests/[id]`.
+- [x] Build shared `GuestForm`.
+- [x] Add delete confirmation.
+- [x] Verify admin can create a guest.
+- [x] Verify admin can edit a guest.
+- [x] Verify admin can delete a guest.
+- [x] Verify validation messages are clear.
 
 ## Phase 10: Polish and Hardening
 
-- [ ] Improve responsive spacing.
-- [ ] Improve typography.
-- [ ] Add empty states.
-- [ ] Add loading states.
-- [ ] Add accessible labels for controls.
-- [ ] Add friendly API error responses.
-- [ ] Review public/private data boundaries.
-- [ ] Add admin security note or basic admin protection.
-- [ ] Run lint.
-- [ ] Run production build.
-- [ ] Perform manual mobile smoke test.
-- [ ] Perform manual desktop smoke test.
+- [x] Improve responsive spacing.
+- [x] Improve typography.
+- [x] Add empty states.
+- [x] Add loading states.
+- [x] Add accessible labels for controls.
+- [x] Add friendly API error responses.
+- [x] Review public/private data boundaries.
+- [x] Add admin security note or basic admin protection.
+- [x] Run lint.
+- [x] Run production build.
+- [x] Perform manual mobile smoke test.
+- [x] Perform manual desktop smoke test.
 
 ## Optional Enhancements
 
-- [ ] Add CSV import.
-- [ ] Add CSV export.
-- [ ] Add QR code generation per guest.
-- [ ] Add wedding settings editor.
-- [ ] Add managed photo gallery.
-- [ ] Add admin authentication.
-- [ ] Add PostgreSQL deployment configuration.
+- [x] Add CSV import.
+- [x] Add CSV export.
+- [x] Add QR code generation per guest.
+- [x] Add wedding settings editor.
+- [x] Add managed photo gallery.
+- [ ] Add admin authentication. (HTTP Basic Auth already covers this — see Phase 10; a full session-based login is still not built.)
+- [x] Add PostgreSQL deployment configuration. (Documented migration path + schema/package scaffolding — not a live runtime toggle; see `docs/deployment-postgres.md`.)
 - [ ] Add Playwright end-to-end tests.
 
 ## MVP Done Criteria

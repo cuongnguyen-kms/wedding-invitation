@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { parseJsonBody } from "@/lib/api";
 import { getGuestBySlug, updateRsvpBySlug } from "@/lib/guests";
 import { rsvpSubmissionSchema } from "@/schemas/rsvp";
 
@@ -14,8 +15,12 @@ export async function POST(request: Request, { params }: RouteParams) {
     return NextResponse.json({ error: "Invitation not found" }, { status: 404 });
   }
 
-  const body = await request.json().catch(() => null);
-  const parsed = rsvpSubmissionSchema.safeParse(body);
+  const body = await parseJsonBody(request);
+  if (!body.ok) {
+    return NextResponse.json({ error: "Request body must be valid JSON" }, { status: 400 });
+  }
+
+  const parsed = rsvpSubmissionSchema.safeParse(body.data);
 
   if (!parsed.success) {
     return NextResponse.json(

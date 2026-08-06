@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { prisma } from "../lib/db";
+import { weddingConfig } from "../lib/wedding-config";
 
 const guests = [
   {
@@ -61,6 +62,30 @@ async function main() {
   }
 
   console.log(`Seeded ${guests.length} guests.`);
+
+  const settingsData = {
+    groomName: weddingConfig.couple.groom,
+    brideName: weddingConfig.couple.bride,
+    displayNames: weddingConfig.couple.displayNames,
+    weddingDateTime: new Date(weddingConfig.couple.date),
+    weddingDateLabel: weddingConfig.couple.dateLabel,
+    intro: weddingConfig.couple.intro,
+    locationTitle: weddingConfig.location.title,
+    locationAddress: weddingConfig.location.address,
+    locationMapUrl: weddingConfig.location.mapUrl,
+    eventsJson: JSON.stringify(weddingConfig.events),
+    scheduleJson: JSON.stringify(weddingConfig.schedule),
+    storyJson: JSON.stringify(weddingConfig.story),
+    familiesJson: JSON.stringify(weddingConfig.families),
+  };
+
+  await prisma.weddingSettings.upsert({
+    where: { id: "singleton" },
+    update: settingsData,
+    create: { id: "singleton", ...settingsData },
+  });
+
+  console.log("Seeded wedding settings from lib/wedding-config.ts defaults.");
 }
 
 main()

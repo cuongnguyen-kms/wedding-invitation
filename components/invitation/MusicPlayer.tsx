@@ -9,7 +9,7 @@ type MusicPlayerProps = {
 };
 
 const invitationOpenEvent = "invitation-open";
-const defaultMusicSrc = publicPath("/music/cant-help-falling-in-love.mp3");
+const defaultMusicSrc = publicPath("/music/vay_cuoi.mp3");
 
 export function MusicPlayer({
   isVisible,

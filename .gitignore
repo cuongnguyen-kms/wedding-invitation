@@ -29,4 +29,12 @@ Thumbs.db
 # raw, unoptimized photo originals (run `npm run optimize-images` to regenerate public/images/gallery)
 assets/photos-source
 
-/lib/generated/prisma
+/lib/generated/
+
+# terraform
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/terraform.tfvars
+

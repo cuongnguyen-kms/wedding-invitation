@@ -25,7 +25,7 @@ export default async function AdminDashboardPage() {
       </div>
       <Link
         href="/admin/guests"
-        className="mt-8 inline-block text-sm font-medium text-rose-700 hover:underline"
+        className="mt-8 inline-block rounded-md text-sm font-medium text-rose-700 hover:underline focus:outline-none focus:ring-2 focus:ring-rose-300"
       >
         View guest list →
       </Link>
