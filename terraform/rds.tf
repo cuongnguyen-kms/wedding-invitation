@@ -24,7 +24,7 @@ resource "aws_db_instance" "this" {
 
   db_subnet_group_name   = aws_db_subnet_group.this.name
   vpc_security_group_ids = [aws_security_group.rds.id]
-  publicly_accessible    = var.enable_public_migration_access
+  publicly_accessible    = false
 
   multi_az                = false
   backup_retention_period = 3
@@ -43,7 +43,12 @@ resource "aws_secretsmanager_secret" "db_url" {
 
 resource "aws_secretsmanager_secret_version" "db_url" {
   secret_id     = aws_secretsmanager_secret.db_url.id
-  secret_string = "postgresql://${var.db_username}:${random_password.db.result}@${aws_db_instance.this.address}:${aws_db_instance.this.port}/${var.db_name}?sslmode=require"
+  # sslmode=no-verify (not require): RDS's server cert chains to Amazon's own
+  # CA, which isn't in Node's default trust store - `require` still validates
+  # against that default store and fails with "self-signed certificate in
+  # certificate chain". no-verify keeps the connection encrypted, just skips
+  # validating the chain.
+  secret_string = "postgresql://${var.db_username}:${random_password.db.result}@${aws_db_instance.this.address}:${aws_db_instance.this.port}/${var.db_name}?sslmode=no-verify"
 }
 
 resource "aws_secretsmanager_secret" "admin_password" {

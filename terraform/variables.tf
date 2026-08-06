@@ -40,14 +40,8 @@ variable "container_image_tag" {
   default     = "latest"
 }
 
-variable "enable_public_migration_access" {
-  description = "Temporarily makes RDS publicly accessible (restricted to migration_access_cidr) so you can run `prisma migrate deploy`/seed from your machine. Flip back to false once done."
+variable "enable_nat_gateway" {
+  description = "Creates a NAT Gateway (real hourly cost) so the private subnets can reach the internet - needed by codebuild-migrate.tf's VPC-attached build to pull our ECR image. Flip on right before running a migration, off right after; nothing NAT-related exists in this config at all while false."
   type        = bool
   default     = false
-}
-
-variable "migration_access_cidr" {
-  description = "Your IP in CIDR form (e.g. 1.2.3.4/32). Only used when enable_public_migration_access is true."
-  type        = string
-  default     = ""
 }
