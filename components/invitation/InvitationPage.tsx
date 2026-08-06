@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { RsvpStatus } from "@/lib/generated/prisma/enums";
+import type { RsvpStatus } from "@/lib/generated/prisma-postgres/enums";
 import type { WeddingConfig } from "@/lib/wedding-config";
 import { AutoScrollController } from "./AutoScrollController";
 import { ClosingMessage } from "./ClosingMessage";

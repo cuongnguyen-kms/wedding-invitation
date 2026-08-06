@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { publicPath } from "@/lib/public-path";
-import type { RsvpStatus } from "@/lib/generated/prisma/enums";
+import type { RsvpStatus } from "@/lib/generated/prisma-postgres/enums";
 
 type RsvpFormProps = {
   guestSlug: string;

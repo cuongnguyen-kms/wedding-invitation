@@ -2,8 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { Guest } from "@/lib/generated/prisma/client";
-import type { RsvpStatus } from "@/lib/generated/prisma/enums";
+import type { Guest } from "@/lib/generated/prisma-postgres/client";
+import type { RsvpStatus } from "@/lib/generated/prisma-postgres/enums";
 
 type GuestFormProps = { mode: "create"; guest?: undefined } | { mode: "edit"; guest: Guest };
 

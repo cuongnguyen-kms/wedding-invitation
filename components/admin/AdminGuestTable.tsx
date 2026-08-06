@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Guest } from "@/lib/generated/prisma/client";
+import type { Guest } from "@/lib/generated/prisma-postgres/client";
 import { CopyInviteLinkButton } from "./CopyInviteLinkButton";
 
 type AdminGuestTableProps = {

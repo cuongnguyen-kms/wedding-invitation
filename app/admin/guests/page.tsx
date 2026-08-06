@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { AdminGuestTable } from "@/components/admin/AdminGuestTable";
 import { listGuests } from "@/lib/guests";
-import type { RsvpStatus } from "@/lib/generated/prisma/enums";
+import type { RsvpStatus } from "@/lib/generated/prisma-postgres/enums";
 
 type GuestsPageProps = {
   searchParams: Promise<{ q?: string; group?: string; rsvpStatus?: string }>;
