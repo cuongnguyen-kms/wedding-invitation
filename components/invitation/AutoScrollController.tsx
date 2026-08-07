@@ -122,6 +122,7 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
     }
 
     let frameId = 0;
+    let startTimeoutId = 0;
     const pixelsPerSecond = 34;
 
     function step(now: number) {
@@ -145,17 +146,29 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
       // one (a sub-pixel step) finished - net movement rounds to ~0 on
       // stricter engines (mobile WebKit) even though it limps along on
       // desktop. Assigning scrollTop directly always jumps instantly,
-      // bypassing scroll-behavior entirely.
+      // bypassing scroll-behavior entirely. Writing it on both the
+      // documentElement and body covers iOS Safari, which has a long
+      // history of only honoring one or the other depending on version.
       document.documentElement.scrollTop = nextTop;
+      document.body.scrollTop = nextTop;
+      window.scrollTo(0, nextTop);
 
       if (nextTop < getMaxScrollTop()) {
         frameId = window.requestAnimationFrame(step);
       }
     }
 
-    frameId = window.requestAnimationFrame(step);
+    // iOS Safari can silently ignore programmatic scrollTop writes made
+    // while it's still settling the touch that just ended (the tap on
+    // "Open Invitation" itself) - it treats that window as an in-progress
+    // touch/scroll session and won't let script fight it. Waiting a beat
+    // after opening avoids racing that settle period.
+    startTimeoutId = window.setTimeout(() => {
+      frameId = window.requestAnimationFrame(step);
+    }, 300);
 
     return () => {
+      window.clearTimeout(startTimeoutId);
       window.cancelAnimationFrame(frameId);
     };
   }, [isOpened, isPaused]);
