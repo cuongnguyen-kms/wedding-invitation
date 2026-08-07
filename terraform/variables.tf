@@ -45,3 +45,15 @@ variable "enable_nat_gateway" {
   type        = bool
   default     = false
 }
+
+variable "github_owner_repo" {
+  description = "GitHub \"owner/repo\" that's allowed to assume the deploy role via OIDC - see github-actions.tf"
+  type        = string
+  default     = "cuongnguyen-kms/wedding-invitation"
+}
+
+variable "github_deploy_branch" {
+  description = "Branch allowed to assume the deploy role - matches the trigger branch in ../.github/workflows/deploy.yml"
+  type        = string
+  default     = "master"
+}

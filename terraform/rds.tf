@@ -42,7 +42,7 @@ resource "aws_secretsmanager_secret" "db_url" {
 }
 
 resource "aws_secretsmanager_secret_version" "db_url" {
-  secret_id     = aws_secretsmanager_secret.db_url.id
+  secret_id = aws_secretsmanager_secret.db_url.id
   # sslmode=no-verify (not require): RDS's server cert chains to Amazon's own
   # CA, which isn't in Node's default trust store - `require` still validates
   # against that default store and fails with "self-signed certificate in
