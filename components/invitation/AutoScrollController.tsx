@@ -14,6 +14,14 @@ type AutoScrollControllerProps = {
   isOpened: boolean;
 };
 
+// TEMPORARY: an on-screen readout for diagnosing the "doesn't auto-scroll
+// on real phones" bug without needing a Mac + Safari Web Inspector. Only
+// renders when the page is loaded with ?debug=1. Remove once the bug is
+// confirmed fixed on real hardware.
+function isDebugMode() {
+  return new URLSearchParams(window.location.search).get("debug") === "1";
+}
+
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
@@ -42,6 +50,19 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
   const isPausedRef = useRef(false);
   const previousTimeRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
+  const [debugEnabled, setDebugEnabled] = useState(false);
+  const debugEnabledRef = useRef(false);
+  const [debugLine, setDebugLine] = useState("");
+
+  useEffect(() => {
+    const enabled = isDebugMode();
+    debugEnabledRef.current = enabled;
+    // Reading a URL query param can only happen client-side after mount, so
+    // this can't be derived during render - the setState-in-effect lint rule
+    // doesn't apply to genuinely external, un-SSR-able state like this.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setDebugEnabled(enabled);
+  }, []);
 
   useEffect(() => {
     isPausedRef.current = isPaused;
@@ -52,9 +73,12 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
       return;
     }
 
-    const pauseAutoScroll = () => {
+    const pauseAutoScroll = (reason: string) => {
       isPausedRef.current = true;
       setIsPaused(true);
+      if (debugEnabledRef.current) {
+        setDebugLine(`paused by: ${reason}`);
+      }
     };
     const toggleAutoScroll = (event: MouseEvent) => {
       if (
@@ -88,22 +112,23 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
           thresholdPx: TOUCH_MOVE_PAUSE_THRESHOLD_PX,
         })
       ) {
-        pauseAutoScroll();
+        pauseAutoScroll(
+          `touchmove (start=${touchStartYRef.current} current=${currentY})`,
+        );
       }
     };
-    const events: Array<keyof WindowEventMap> = ["wheel", "keydown"];
+    const handleWheel = () => pauseAutoScroll("wheel");
+    const handleKeydown = () => pauseAutoScroll("keydown");
 
-    events.forEach((eventName) => {
-      window.addEventListener(eventName, pauseAutoScroll, { passive: true });
-    });
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    window.addEventListener("keydown", handleKeydown, { passive: true });
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("touchmove", handleTouchMove, { passive: true });
     window.addEventListener("click", toggleAutoScroll);
 
     return () => {
-      events.forEach((eventName) => {
-        window.removeEventListener(eventName, pauseAutoScroll);
-      });
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("keydown", handleKeydown);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("click", toggleAutoScroll);
@@ -111,18 +136,23 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
   }, [isOpened]);
 
   useEffect(() => {
-    if (
-      !shouldStartAutoScroll({
-        isOpened,
-        prefersReducedMotion: prefersReducedMotion(),
-      }) ||
-      isPaused
-    ) {
+    const started = shouldStartAutoScroll({
+      isOpened,
+      prefersReducedMotion: prefersReducedMotion(),
+    });
+    if (debugEnabledRef.current) {
+      setDebugLine(
+        `gate: started=${started} isOpened=${isOpened} isPaused=${isPaused}`,
+      );
+    }
+
+    if (!started || isPaused) {
       return;
     }
 
     let frameId = 0;
     let startTimeoutId = 0;
+    let frameCount = 0;
     const pixelsPerSecond = 34;
 
     function step(now: number) {
@@ -130,6 +160,7 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
         return;
       }
 
+      frameCount += 1;
       const previousTime = previousTimeRef.current ?? now;
       const deltaMs = now - previousTime;
       previousTimeRef.current = now;
@@ -153,8 +184,17 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
       document.body.scrollTop = nextTop;
       window.scrollTo(0, nextTop);
 
-      if (nextTop < getMaxScrollTop()) {
+      const newMax = getMaxScrollTop();
+      if (debugEnabledRef.current) {
+        setDebugLine(
+          `frame#${frameCount} scrollY=${Math.round(window.scrollY)} next=${nextTop} max=${newMax} innerH=${window.innerHeight} docH=${document.documentElement.scrollHeight}`,
+        );
+      }
+
+      if (nextTop < newMax) {
         frameId = window.requestAnimationFrame(step);
+      } else if (debugEnabledRef.current) {
+        setDebugLine((current) => `${current} [stopped: reached max]`);
       }
     }
 
@@ -173,5 +213,29 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
     };
   }, [isOpened, isPaused]);
 
-  return null;
+  if (!debugEnabled) {
+    return null;
+  }
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 9999,
+        background: "rgba(0,0,0,0.85)",
+        color: "#7CFC00",
+        fontFamily: "monospace",
+        fontSize: 11,
+        lineHeight: 1.4,
+        padding: "6px 8px",
+        whiteSpace: "pre-wrap",
+        pointerEvents: "none",
+      }}
+    >
+      {debugLine || "waiting for first update..."}
+    </div>
+  );
 }
