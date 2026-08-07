@@ -114,7 +114,14 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
         max: getMaxScrollTop(),
       });
 
-      window.scrollTo({ top: nextTop, behavior: "auto" });
+      // Not window.scrollTo({ behavior: "auto" }): "auto" defers to the
+      // html { scroll-behavior: smooth } rule in globals.css, so each ~16ms
+      // frame would restart a smooth-scroll animation before the previous
+      // one (a sub-pixel step) finished - net movement rounds to ~0 on
+      // stricter engines (mobile WebKit) even though it limps along on
+      // desktop. Assigning scrollTop directly always jumps instantly,
+      // bypassing scroll-behavior entirely.
+      document.documentElement.scrollTop = nextTop;
 
       if (nextTop < getMaxScrollTop()) {
         frameId = window.requestAnimationFrame(step);
