@@ -102,7 +102,7 @@ export const weddingConfig: WeddingConfig = {
       day: "10",
       month: "10",
       year: "2026",
-      time: "17:30",
+      time: "16:30",
       venue: "Moonlight Ballroom",
       address: "88 Le Loi, District 1, Ho Chi Minh City",
     },
@@ -121,19 +121,19 @@ export const weddingConfig: WeddingConfig = {
   },
   schedule: [
     {
-      time: "17:30",
+      time: "16:30",
       activity: "Đón khách",
     },
     {
-      time: "18:30",
+      time: "17:30",
       activity: "Khai tiệc",
     },
     {
-      time: "18:45",
+      time: "17:45",
       activity: "Rót rượu, cắt bánh",
     },
     {
-      time: "19:00",
+      time: "18:00",
       activity: "Phục vụ món chính",
     },
     {
