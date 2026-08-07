@@ -49,6 +49,7 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
   const [isPaused, setIsPaused] = useState(false);
   const isPausedRef = useRef(false);
   const previousTimeRef = useRef<number | null>(null);
+  const targetScrollTopRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
   const [debugEnabled, setDebugEnabled] = useState(false);
   const debugEnabledRef = useRef(false);
@@ -90,6 +91,7 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
           const next = !current;
           isPausedRef.current = next;
           previousTimeRef.current = null;
+          targetScrollTopRef.current = null;
           return next;
         });
       }
@@ -151,7 +153,6 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
     }
 
     let frameId = 0;
-    let startTimeoutId = 0;
     let frameCount = 0;
     const pixelsPerSecond = 34;
 
@@ -164,51 +165,49 @@ export function AutoScrollController({ isOpened }: AutoScrollControllerProps) {
       const previousTime = previousTimeRef.current ?? now;
       const deltaMs = now - previousTime;
       previousTimeRef.current = now;
+      const max = getMaxScrollTop();
+      // Debug data from a real iPhone 13/Chrome session showed scrollY
+      // reading back as 0 forever even after 500+ frames of writes: each
+      // frame's step is under 1px, and this device never reflects that
+      // write back through window.scrollY by the time the next frame reads
+      // it, so basing the next step on a DOM readback stalls permanently.
+      // Tracking the intended position ourselves guarantees it keeps
+      // growing every frame regardless of what the DOM reports back, so
+      // the accumulated delta eventually becomes large enough that the
+      // browser can't ignore it.
+      const baseline = targetScrollTopRef.current ?? window.scrollY;
       const nextTop = getContinuousScrollTop({
-        current: window.scrollY,
+        current: baseline,
         deltaMs,
         pixelsPerSecond,
-        max: getMaxScrollTop(),
+        max,
       });
+      targetScrollTopRef.current = nextTop;
 
-      // Not window.scrollTo({ behavior: "auto" }): "auto" defers to the
-      // html { scroll-behavior: smooth } rule in globals.css, so each ~16ms
-      // frame would restart a smooth-scroll animation before the previous
-      // one (a sub-pixel step) finished - net movement rounds to ~0 on
-      // stricter engines (mobile WebKit) even though it limps along on
-      // desktop. Assigning scrollTop directly always jumps instantly,
-      // bypassing scroll-behavior entirely. Writing it on both the
-      // documentElement and body covers iOS Safari, which has a long
-      // history of only honoring one or the other depending on version.
+      // Assigning scrollTop directly is always instant, unlike scrollTo's
+      // options-object form, which defers to the html { scroll-behavior:
+      // smooth } rule in globals.css. documentElement and body are both
+      // written since browsers have differed on which is "the" scrolling
+      // element for the top-level document.
       document.documentElement.scrollTop = nextTop;
       document.body.scrollTop = nextTop;
-      window.scrollTo(0, nextTop);
 
-      const newMax = getMaxScrollTop();
       if (debugEnabledRef.current) {
         setDebugLine(
-          `frame#${frameCount} scrollY=${Math.round(window.scrollY)} next=${nextTop} max=${newMax} innerH=${window.innerHeight} docH=${document.documentElement.scrollHeight}`,
+          `frame#${frameCount} scrollY=${Math.round(window.scrollY)} target=${nextTop} max=${max} innerH=${window.innerHeight} docH=${document.documentElement.scrollHeight}`,
         );
       }
 
-      if (nextTop < newMax) {
+      if (nextTop < max) {
         frameId = window.requestAnimationFrame(step);
       } else if (debugEnabledRef.current) {
         setDebugLine((current) => `${current} [stopped: reached max]`);
       }
     }
 
-    // iOS Safari can silently ignore programmatic scrollTop writes made
-    // while it's still settling the touch that just ended (the tap on
-    // "Open Invitation" itself) - it treats that window as an in-progress
-    // touch/scroll session and won't let script fight it. Waiting a beat
-    // after opening avoids racing that settle period.
-    startTimeoutId = window.setTimeout(() => {
-      frameId = window.requestAnimationFrame(step);
-    }, 300);
+    frameId = window.requestAnimationFrame(step);
 
     return () => {
-      window.clearTimeout(startTimeoutId);
       window.cancelAnimationFrame(frameId);
     };
   }, [isOpened, isPaused]);
