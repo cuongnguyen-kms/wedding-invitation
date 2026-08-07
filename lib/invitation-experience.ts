@@ -25,6 +25,12 @@ type AutoScrollClickInput = {
   isInteractiveTarget: boolean;
 };
 
+type TouchPauseInput = {
+  startY: number | null;
+  currentY: number;
+  thresholdPx: number;
+};
+
 export function shouldStartAutoScroll({
   isOpened,
   prefersReducedMotion,
@@ -81,4 +87,16 @@ export function shouldToggleAutoScrollFromClick({
   isInteractiveTarget,
 }: AutoScrollClickInput) {
   return !isInteractiveTarget;
+}
+
+export function shouldPauseFromTouchMove({
+  startY,
+  currentY,
+  thresholdPx,
+}: TouchPauseInput) {
+  if (startY === null) {
+    return true;
+  }
+
+  return Math.abs(currentY - startY) > thresholdPx;
 }

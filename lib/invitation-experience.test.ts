@@ -4,6 +4,7 @@ import {
   getContinuousScrollTop,
   getNextAutoScrollIndex,
   getSmoothScrollTop,
+  shouldPauseFromTouchMove,
   shouldToggleAutoScrollFromClick,
   shouldStartAutoScroll,
 } from "./invitation-experience";
@@ -56,5 +57,17 @@ describe("invitation experience helpers", () => {
   it("toggles auto-scroll on page clicks but ignores interactive controls", () => {
     expect(shouldToggleAutoScrollFromClick({ isInteractiveTarget: false })).toBe(true);
     expect(shouldToggleAutoScrollFromClick({ isInteractiveTarget: true })).toBe(false);
+  });
+
+  it("only pauses from touchmove once movement clears the jitter threshold", () => {
+    expect(
+      shouldPauseFromTouchMove({ startY: 200, currentY: 197, thresholdPx: 10 }),
+    ).toBe(false);
+    expect(
+      shouldPauseFromTouchMove({ startY: 200, currentY: 185, thresholdPx: 10 }),
+    ).toBe(true);
+    expect(
+      shouldPauseFromTouchMove({ startY: null, currentY: 185, thresholdPx: 10 }),
+    ).toBe(true);
   });
 });
