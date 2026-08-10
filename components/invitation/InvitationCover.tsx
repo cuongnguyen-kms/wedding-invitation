@@ -31,7 +31,8 @@ export function InvitationCover({
           Wedding Invitation
         </p>
         <h1 className="mt-6 font-serif text-5xl leading-tight text-rose-950 sm:text-7xl">
-          {couple.displayNames}
+          <span className="block">{couple.groom} &amp;</span>
+          <span className="block">{couple.bride}</span>
         </h1>
         <div className="my-6 h-px w-28 bg-rose-200" />
         <p className="text-lg font-medium text-stone-700">{couple.dateLabel}</p>

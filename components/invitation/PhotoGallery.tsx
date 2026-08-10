@@ -70,7 +70,7 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
       />
 
       <div className="relative z-10 mx-auto max-w-2xl">
-        <h2 className="font-serif text-2xl font-semibold uppercase tracking-[0.18em] text-[#9c6a61] sm:text-3xl">
+        <h2 className="font-serif text-xl font-semibold uppercase tracking-[0.18em] text-[#9c6a61] sm:text-3xl">
           Album Ảnh Cưới
         </h2>
 

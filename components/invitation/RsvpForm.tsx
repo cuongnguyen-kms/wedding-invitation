@@ -76,7 +76,7 @@ export function RsvpForm({
       />
 
       <div className="relative z-10 mx-auto max-w-2xl text-[#9c6a61]">
-        <h2 className="font-serif text-2xl font-semibold uppercase tracking-[0.18em] sm:text-3xl">
+        <h2 className="font-serif text-xl font-semibold uppercase tracking-[0.18em] sm:text-3xl">
           Sổ lưu bút
         </h2>
 

@@ -19,7 +19,7 @@ export function MapSection({ location }: MapSectionProps) {
       />
 
       <div className="relative z-10 mx-auto max-w-3xl text-[#9c6a61]">
-        <h2 className="font-serif text-2xl font-semibold uppercase tracking-[0.18em] sm:text-3xl">
+        <h2 className="font-serif text-xl font-semibold uppercase tracking-[0.18em] sm:text-3xl">
           Tiệc Cưới Sẽ Tổ Chức Tại
         </h2>
         <p className="mt-4 font-serif text-2xl text-[#8e5f57]">{location.title}</p>

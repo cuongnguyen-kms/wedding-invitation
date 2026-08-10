@@ -9,7 +9,7 @@ export function LoveStoryTimeline({ items }: LoveStoryTimelineProps) {
     <div className="relative mx-auto overflow-hidden rounded-[2rem] border border-rose-100 bg-[#fffaf7] px-5 py-14 text-center shadow-2xl shadow-rose-100/70 sm:px-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_66%,rgba(251,207,232,0.3),transparent_17rem),radial-gradient(circle_at_52%_52%,rgba(255,255,255,0.75),transparent_19rem)]" />
       <div className="relative z-10 mx-auto max-w-xl text-[#9c6a61]">
-        <h2 className="font-serif text-2xl font-semibold uppercase tracking-[0.18em] sm:text-3xl">
+        <h2 className="font-serif text-xl font-semibold uppercase tracking-[0.18em] sm:text-3xl">
           Lịch Trình Ngày Cưới
         </h2>
 

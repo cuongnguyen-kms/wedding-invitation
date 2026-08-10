@@ -52,7 +52,7 @@ export function EventDetails({ couple, events, families }: EventDetailsProps) {
       />
 
       <div className="relative z-10">
-        <h2 className="font-serif text-2xl font-semibold uppercase tracking-[0.18em] text-[#9c6a61] sm:text-3xl">
+        <h2 className="font-serif text-xl font-semibold uppercase tracking-[0.18em] text-[#9c6a61] sm:text-3xl">
           Thông Tin Lễ Cưới
         </h2>
 

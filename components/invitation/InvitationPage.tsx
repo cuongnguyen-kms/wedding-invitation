@@ -36,6 +36,10 @@ export function InvitationPage({ config, rsvp }: InvitationPageProps) {
         guest={rsvp ? config.guest : undefined}
         isOpened={isOpened}
         onOpen={() => {
+          // Instant, not scrollTo({ behavior: "smooth" }) - see
+          // AutoScrollController for why direct assignment is required here.
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
           dispatchInvitationOpenEvent();
           setIsOpened(true);
         }}
