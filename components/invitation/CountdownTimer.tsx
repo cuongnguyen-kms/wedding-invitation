@@ -6,9 +6,16 @@ type CountdownTimerProps = {
   event: WeddingEvent;
 };
 
-const calendarDays = Array.from({ length: 28 }, (_, index) => index + 1);
-
 export function CountdownTimer({ event }: CountdownTimerProps) {
+  const month = Number(event.month);
+  const year = Number(event.year);
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const firstWeekday = (new Date(year, month - 1, 1).getDay() + 6) % 7; // Monday = 0
+  const calendarCells = [
+    ...Array.from({ length: firstWeekday }, () => null),
+    ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
+  ];
+
   return (
     <div className="relative mx-auto overflow-hidden rounded-[2rem] border border-rose-100 bg-[#fffaf7] px-5 py-14 text-center shadow-2xl shadow-rose-100/70 sm:px-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_30%,rgba(251,207,232,0.26),transparent_18rem),radial-gradient(circle_at_74%_62%,rgba(255,255,255,0.8),transparent_16rem)]" />
@@ -50,18 +57,22 @@ export function CountdownTimer({ event }: CountdownTimerProps) {
                 {day}
               </span>
             ))}
-            {calendarDays.map((day) => (
-              <span
-                key={day}
-                className={`flex aspect-square items-center justify-center rounded-full ${
-                  day === Number(event.day)
-                    ? "bg-[#a86f66] text-white"
-                    : "text-[#9c6a61]"
-                }`}
-              >
-                {day}
-              </span>
-            ))}
+            {calendarCells.map((day, index) =>
+              day === null ? (
+                <span key={`blank-${index}`} />
+              ) : (
+                <span
+                  key={day}
+                  className={`flex aspect-square items-center justify-center rounded-full ${
+                    day === Number(event.day)
+                      ? "bg-[#a86f66] text-white"
+                      : "text-[#9c6a61]"
+                  }`}
+                >
+                  {day}
+                </span>
+              ),
+            )}
           </div>
         </div>
 
