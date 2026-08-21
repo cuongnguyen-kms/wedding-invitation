@@ -11,7 +11,7 @@ import { EventDetails } from "./EventDetails";
 import { InvitationCover } from "./InvitationCover";
 import { LoveStoryTimeline } from "./LoveStoryTimeline";
 import { MapSection } from "./MapSection";
-import { dispatchInvitationOpenEvent, MusicPlayer } from "./MusicPlayer";
+import { MusicPlayer } from "./MusicPlayer";
 import { PhotoGallery } from "./PhotoGallery";
 import { RsvpForm } from "./RsvpForm";
 import { Section } from "./Section";
@@ -40,7 +40,6 @@ export function InvitationPage({ config, rsvp }: InvitationPageProps) {
           // AutoScrollController for why direct assignment is required here.
           document.documentElement.scrollTop = 0;
           document.body.scrollTop = 0;
-          dispatchInvitationOpenEvent();
           setIsOpened(true);
         }}
       />

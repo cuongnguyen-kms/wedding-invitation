@@ -1,4 +1,6 @@
+import { useState } from "react";
 import type { WeddingConfig } from "@/lib/wedding-config";
+import { dispatchInvitationOpenEvent } from "./MusicPlayer";
 import { GuestGreeting } from "./GuestGreeting";
 
 type InvitationCoverProps = {
@@ -8,12 +10,45 @@ type InvitationCoverProps = {
   onOpen: () => void;
 };
 
+// Keep in sync with the panel transition duration in globals.css
+// (.split-panel) so this covers the split finishing.
+const SPLIT_ANIMATION_MS = 800;
+
+// Extra hold after the split finishes so the guest has time to read their
+// name in the greeting pill before the cover hands off to the full page.
+const NAME_READ_PAUSE_MS = 1500;
+
 export function InvitationCover({
   couple,
   guest,
   isOpened,
   onOpen,
 }: InvitationCoverProps) {
+  const [isOpening, setIsOpening] = useState(false);
+
+  function handleSealTap() {
+    if (isOpening) {
+      return;
+    }
+    setIsOpening(true);
+
+    // Audio must start synchronously inside the click handler - a delayed
+    // dispatch (e.g. from setTimeout) loses the user-gesture context mobile
+    // browsers require to allow playback. See MusicPlayer.tsx.
+    dispatchInvitationOpenEvent();
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) {
+      onOpen();
+      return;
+    }
+
+    window.setTimeout(onOpen, SPLIT_ANIMATION_MS + NAME_READ_PAUSE_MS);
+  }
+
   return (
     <section
       className={`fixed inset-0 z-40 isolate flex min-h-screen items-center overflow-hidden px-5 py-12 text-center transition duration-700 ${
@@ -41,13 +76,33 @@ export function InvitationCover({
             <GuestGreeting greeting={guest.greeting} name={guest.name} />
           </div>
         ) : null}
+      </div>
+
+      <div className="absolute inset-0 z-20">
+        <div
+          className={`split-panel split-panel-left ${isOpening ? "split-panel-open" : ""}`}
+          aria-hidden="true"
+        />
+        <div
+          className={`split-panel split-panel-right ${isOpening ? "split-panel-open" : ""}`}
+          aria-hidden="true"
+        />
         <button
           type="button"
-          onClick={onOpen}
-          className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-rose-700 px-7 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-lg shadow-rose-200 transition hover:bg-rose-800 focus:outline-none focus:ring-4 focus:ring-rose-200"
+          onClick={handleSealTap}
+          disabled={isOpening}
+          aria-label="Open invitation"
+          className={`cover-seal ${isOpening ? "cover-seal-open" : ""}`}
         >
-          Open Invitation
+          <span aria-hidden="true">囍</span>
         </button>
+        <p
+          className={`cover-hint transition-opacity duration-300 ${
+            isOpening ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          Tap the seal to open
+        </p>
       </div>
     </section>
   );
