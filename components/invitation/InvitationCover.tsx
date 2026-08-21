@@ -51,7 +51,7 @@ export function InvitationCover({
 
   return (
     <section
-      className={`fixed inset-0 z-40 isolate flex min-h-screen items-center overflow-hidden px-5 py-12 text-center transition duration-700 ${
+      className={`fixed inset-0 z-40 isolate flex h-dvh items-center overflow-hidden px-5 py-12 text-center transition duration-700 ${
         isOpened ? "pointer-events-none translate-y-[-4rem] opacity-0" : "opacity-100"
       }`}
       aria-hidden={isOpened}
