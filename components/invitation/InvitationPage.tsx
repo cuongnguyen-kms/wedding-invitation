@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { RsvpStatus } from "@/lib/generated/prisma-postgres/enums";
 import type { WeddingConfig } from "@/lib/wedding-config";
 import { AutoScrollController } from "./AutoScrollController";
@@ -28,6 +28,26 @@ type InvitationPageProps = {
 
 export function InvitationPage({ config, rsvp }: InvitationPageProps) {
   const [isOpened, setIsOpened] = useState(false);
+
+  useEffect(() => {
+    // The layout's beforeInteractive script handles a fresh load/reload;
+    // this catches restoring the page from the browser's back-forward
+    // cache (bfcache), which fires no navigation/reload and so never runs
+    // that script.
+    const resetScroll = () => {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+    resetScroll();
+
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        resetScroll();
+      }
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
 
   return (
     <main className="invitation-shell min-h-screen overflow-hidden bg-rose-50 text-stone-900">
